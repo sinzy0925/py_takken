@@ -1,4 +1,5 @@
 .env
+secrets/
 .session_data.json
 .venv/
 __pycache__/

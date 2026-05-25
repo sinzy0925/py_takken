@@ -1,13 +1,16 @@
 # py_takken
 
-宅地建物取引士試験の問題 PDF をテキスト化し、各問題の直後に正解を差し込むためのツール群です。
+宅地建物取引士試験の問題 PDF や Kindle スクリーンショットをテキスト化し、各問題の直後に正解を差し込むためのツール群です。
 
 ## 概要
 
 | スクリプト | 役割 |
 |-----------|------|
 | `extract_pdf_text.py` | `pdf/` 内の PDF を文字起こしして `txt/` に保存 |
+| `extract_image_text.py` | `no-text/` 内の見開き PNG を文字起こしして `no-text-txt/` に保存 |
+| `delete_text.py` | `no-text-txt/` から不要行を除去して `no-text-txt1/` に保存 |
 | `answer_pic.py` | 生成済み TXT の各【問】の直後に答えを挿入 |
+| `slide_speaker-note.py` | `no-text-txt1/` の TXT を Google スライドのスピーカーノートに書き込む |
 | `api_key_manager.py` | Gemini 用 API キーのローテーション管理 |
 
 処理はすべて **直列** です（PDF もページも API 呼び出しも順番に実行）。
@@ -18,8 +21,15 @@
 py_takken/
 ├── pdf/                 # 入力 PDF（*.pdf）
 ├── txt/                 # 出力 TXT
+├── no-text/             # 入力 PNG（Kindle 見開きスクリーンショット等）
+├── no-text-txt/         # 出力 TXT（画像1枚につき1ファイル）
+├── no-text-txt1/        # クリーニング後 TXT
+├── delete_text.py
 ├── extract_pdf_text.py
+├── extract_image_text.py
 ├── answer_pic.py
+├── slide_speaker-note.py
+├── secrets/             # サービスアカウント JSON（git 管理外）
 ├── api_key_manager.py
 ├── requirements.txt
 ├── .env.example
@@ -110,6 +120,68 @@ python answer_pic.py --input txt\H28-q_a.txt
 
 **入力ファイルは上書き保存**されます。必要なら事前にバックアップを取ってください。
 
+### ステップ 1b: 見開き PNG → TXT（Kindle 等）
+
+`no-text/` に PNG を置き、一括文字起こしします。
+
+```powershell
+python extract_image_text.py --input no-text --output no-text-txt
+```
+
+| オプション | 説明 |
+|-----------|------|
+| `--input` | 入力ディレクトリ（既定: `no-text`） |
+| `--output` | 出力ディレクトリ（既定: `no-text-txt`） |
+
+**見開きの処理**
+
+- 画像の幅/高さ比が **1.5 以上** のとき、中央で **左ページ・右ページ** に分割してから Gemini に送信します（1 API 呼び出しで2ページ分）
+- 縦長の単ページ画像は分割せず、そのまま1枚として処理します
+- 出力は `FireShot Capture 032 ....png` → `FireShot Capture 032 ....txt` のように **ファイル名1対1**
+- API キーのローテーション・リトライ・呼び出し間隔は `extract_pdf_text.py` と同じ
+
+出力 TXT の例（見開き）:
+
+```
+--- 左ページ ---
+
+（左ページの本文）
+
+--- 右ページ ---
+
+（右ページの本文）
+```
+
+### ステップ 1c: 不要行の除去（Kindle TXT）
+
+```powershell
+python delete_text.py --input no-text-txt --output no-text-txt1
+```
+
+除去対象:
+
+- `--- 左ページ ---` / `--- 右ページ ---`
+- 数字のみの行（例: `14`, `360`）
+- 書籍フッター（例: `第2章 権利関係 361`, `予想模擬試験 593`）
+
+### ステップ 2: TXT → Google スライドのスピーカーノート
+
+対象の Google スライドを、サービスアカウントのメールアドレスに **編集者** で共有しておきます。認証 JSON は `secrets/` に置きます（例: `secrets/getstockdata05-service-account.json`）。
+
+```powershell
+python slide_speaker-note.py --index 032-033
+```
+
+| オプション | 説明 |
+|-----------|------|
+| `--index` | Capture 番号の範囲（必須）。例: `032-033` → スライド1に032、スライド2に033 |
+| `--url` | プレゼン URL。`slide=id.xxx` 付きなら **その枚目から** 書き込み（ブラウザで開いているスライドの URL をそのまま使える） |
+| `--input` | TXT ディレクトリ（既定: `no-text-txt1`） |
+| `--credentials` | サービスアカウント JSON（既定: `secrets/getstockdata05-service-account.json`） |
+| `--slide-start` | 書き込み開始スライド番号（1始まり）。URL に `slide=` が無いときのみ（既定: 1） |
+
+ファイル名は `FireShot Capture 032 - Kindle - [read.amazon.co.jp].txt` のように Capture 番号で対応付けます。
+
 ## 推奨ワークフロー
 
 ```powershell
@@ -151,7 +223,7 @@ python answer_pic.py --input txt\H29-q_a.txt
 
 ## 注意事項
 
-- `.env` と `.session_data.json` はリポジトリに含めないでください（`.gitignore` 済み）
+- `.env`、`.session_data.json`、`secrets/` はリポジトリに含めないでください（`.gitignore` 済み）
 - 画像 PDF の OCR は API 利用料・レート制限の対象です。キーを複数用意すると 429 などで止まりにくくなります
 - OCR 精度は PDF の画質・モデルに依存します。誤認識は手修正が必要な場合があります
 - `answer_pic.py` は末尾が「問ラベル10件 + 答え10件」×5 ブロック形式の正解番号表を前提としています

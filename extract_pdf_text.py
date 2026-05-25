@@ -133,7 +133,12 @@ def _split_multi_page_ocr(text: str, expected_pages: int) -> list[str]:
     return parts
 
 
-def _ocr_pages_gemini(image_bytes_list: list[bytes], api_key: str) -> str:
+def _ocr_pages_gemini(
+    image_bytes_list: list[bytes],
+    api_key: str,
+    *,
+    prompt: str | None = None,
+) -> str:
     from google import genai
     from google.genai import types
 
@@ -142,7 +147,9 @@ def _ocr_pages_gemini(image_bytes_list: list[bytes], api_key: str) -> str:
         contents.append(
             types.Part.from_bytes(data=image_bytes, mime_type="image/png")
         )
-    contents.append(_build_gemini_transcribe_prompt(len(image_bytes_list)))
+    contents.append(
+        prompt or _build_gemini_transcribe_prompt(len(image_bytes_list))
+    )
 
     client = genai.Client(api_key=api_key)
     response = client.models.generate_content(
@@ -152,7 +159,12 @@ def _ocr_pages_gemini(image_bytes_list: list[bytes], api_key: str) -> str:
     return _extract_gemini_text(response)
 
 
-def _ocr_pages_gemini_with_retry(image_bytes_list: list[bytes], api_key: str) -> str:
+def _ocr_pages_gemini_with_retry(
+    image_bytes_list: list[bytes],
+    api_key: str,
+    *,
+    prompt: str | None = None,
+) -> str:
     """Gemini 呼び出しがエラーなら、別 API キーで最大 OCR_GEMINI_MAX_RETRIES 回リトライする。"""
     last_error: BaseException | None = None
     current_key = api_key
@@ -160,7 +172,9 @@ def _ocr_pages_gemini_with_retry(image_bytes_list: list[bytes], api_key: str) ->
 
     for attempt in range(max_attempts):
         try:
-            return _ocr_pages_gemini(image_bytes_list, current_key)
+            return _ocr_pages_gemini(
+                image_bytes_list, current_key, prompt=prompt
+            )
         except Exception as e:
             last_error = e
             if attempt >= OCR_GEMINI_MAX_RETRIES:
