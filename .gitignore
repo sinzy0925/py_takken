@@ -4,3 +4,7 @@ secrets/
 .venv/
 __pycache__/
 *.pyc
+no-text/
+no-text-txt/
+no-text-txt1/
+
