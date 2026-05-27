@@ -5,7 +5,11 @@ import argparse
 import re
 from pathlib import Path
 
-PAGE_MARKER_RE = re.compile(r"^---\s*(左|右)ページ\s*---\s*$")
+LEFT_PAGE_MARKER_RE = re.compile(r"^---\s*左ページ\s*---\s*$")
+RIGHT_PAGE_MARKER_RE = re.compile(r"^---\s*右ページ\s*---\s*$")
+RIGHT_PAGE_REPLACEMENT = "----------"
+SPLIT_BLOCK = ["", "", RIGHT_PAGE_REPLACEMENT, "", ""]
+SENTENCE_END_RE = re.compile(r"。\s*$")
 DIGIT_ONLY_LINE_RE = re.compile(r"^[0-9０-９]+\s*$")
 # 例: 第1章 宅建業法 19 / 第2章 権利関係 361
 CHAPTER_FOOTER_RE = re.compile(
@@ -21,7 +25,7 @@ def should_delete_line(line: str) -> bool:
     s = line.strip()
     if not s:
         return False
-    if PAGE_MARKER_RE.match(s):
+    if LEFT_PAGE_MARKER_RE.match(s):
         return True
     if DIGIT_ONLY_LINE_RE.match(s):
         return True
@@ -30,6 +34,61 @@ def should_delete_line(line: str) -> bool:
     if MOCK_EXAM_FOOTER_RE.match(s):
         return True
     return False
+
+
+def _line_end_offsets(lines: list[str]) -> list[int]:
+    """各行末（改行の直前）の文字位置。空リストなら []。"""
+    offsets: list[int] = []
+    pos = 0
+    for i, line in enumerate(lines):
+        pos += len(line)
+        offsets.append(pos)
+        if i < len(lines) - 1:
+            pos += 1
+    return offsets
+
+
+def find_mid_sentence_split(lines: list[str]) -> int | None:
+    """前半／後半の中央付近で、句点で終わる行の直後に分割する行インデックスを返す。"""
+    if len(lines) < 2:
+        return None
+    offsets = _line_end_offsets(lines)
+    mid = offsets[-1] // 2
+    candidates: list[tuple[int, int]] = []
+    for i, line in enumerate(lines):
+        if SENTENCE_END_RE.search(line.rstrip()):
+            candidates.append((abs(offsets[i] - mid), i))
+    if not candidates:
+        return None
+    return min(candidates)[1]
+
+
+def insert_at(lines: list[str], after_index: int, block: list[str]) -> list[str]:
+    return lines[: after_index + 1] + block + lines[after_index + 1 :]
+
+
+def insert_quarter_splits(lines: list[str]) -> list[str]:
+    """右ページ区切りの前後半を、それぞれ中央付近の句点でさらに分割する。"""
+    sep_indices = [
+        i for i, line in enumerate(lines) if line.strip() == RIGHT_PAGE_REPLACEMENT
+    ]
+    if len(sep_indices) != 1:
+        return lines
+    sep = sep_indices[0]
+    before = lines[:sep]
+    after = lines[sep + 1 :]
+
+    insertions: list[tuple[int, list[str]]] = []
+    split_before = find_mid_sentence_split(before)
+    if split_before is not None:
+        insertions.append((split_before, SPLIT_BLOCK))
+    split_after = find_mid_sentence_split(after)
+    if split_after is not None:
+        insertions.append((sep + 1 + split_after, SPLIT_BLOCK))
+
+    for index, block in sorted(insertions, key=lambda x: x[0], reverse=True):
+        lines = insert_at(lines, index, block)
+    return lines
 
 
 def collapse_blank_lines(lines: list[str]) -> list[str]:
@@ -46,9 +105,23 @@ def collapse_blank_lines(lines: list[str]) -> list[str]:
     return out
 
 
+def process_line(line: str) -> str | None:
+    s = line.strip()
+    if RIGHT_PAGE_MARKER_RE.match(s):
+        return RIGHT_PAGE_REPLACEMENT
+    if should_delete_line(line):
+        return None
+    return line
+
+
 def clean_text(text: str) -> str:
-    kept = [line for line in text.splitlines() if not should_delete_line(line)]
+    kept: list[str] = []
+    for line in text.splitlines():
+        processed = process_line(line)
+        if processed is not None:
+            kept.append(processed)
     kept = collapse_blank_lines(kept)
+    kept = insert_quarter_splits(kept)
     return "\n".join(kept) + "\n"
 
 

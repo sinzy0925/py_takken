@@ -11,6 +11,7 @@
 | `delete_text.py` | `no-text-txt/` から不要行を除去して `no-text-txt1/` に保存 |
 | `answer_pic.py` | 生成済み TXT の各【問】の直後に答えを挿入 |
 | `slide_speaker-note.py` | `no-text-txt1/` の TXT を Google スライドのスピーカーノートに書き込む |
+| `mp4_m4a.py` | `mp4/` 内の MP4 を 1.3 倍速・モノラル・m4a に変換 |
 | `api_key_manager.py` | Gemini 用 API キーのローテーション管理 |
 
 処理はすべて **直列** です（PDF もページも API 呼び出しも順番に実行）。
@@ -29,6 +30,7 @@ py_takken/
 ├── extract_image_text.py
 ├── answer_pic.py
 ├── slide_speaker-note.py
+├── mp4_m4a.py
 ├── secrets/             # サービスアカウント JSON（git 管理外）
 ├── api_key_manager.py
 ├── requirements.txt
@@ -181,6 +183,21 @@ python slide_speaker-note.py --index 032-033
 | `--slide-start` | 書き込み開始スライド番号（1始まり）。URL に `slide=` が無いときのみ（既定: 1） |
 
 ファイル名は `FireShot Capture 032 - Kindle - [read.amazon.co.jp].txt` のように Capture 番号で対応付けます。
+
+### ステップ 3: MP4 → m4a（1.3 倍速・モノラル）
+
+[ffmpeg](https://ffmpeg.org/) を PATH に入れたうえで、`mp4/` に MP4 を置きます。
+
+```powershell
+python mp4_m4a.py --input mp4 --output m4a
+```
+
+| オプション | 説明 |
+|-----------|------|
+| `--input` | 入力ディレクトリ（既定: `mp4`） |
+| `--output` | 出力ディレクトリ（既定: `m4a`） |
+
+`sample.mp4` → `m4a/sample.m4a`（ファイル名は同じ、拡張子のみ変更）。フォルダ内の `*.mp4` をファイル名順に直列処理します。
 
 ## 推奨ワークフロー
 
