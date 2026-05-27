@@ -179,11 +179,13 @@ def synthesize_text_to_wav_bytes(text: str, *, label: str = "TTS") -> bytes:
 
     for attempt in range(_TTS_MAX_ATTEMPTS):
         api_key = _get_api_key_or_raise()
+        key_suffix = api_key_manager.last_used_key_info["key_snippet"]
         client = genai.Client(api_key=api_key)
         LOG.info(
-            "API リクエスト送信中 (%d / %d 回目) …",
+            "API リクエスト送信中 (%d / %d 回目) key末尾=%s …",
             attempt + 1,
             _TTS_MAX_ATTEMPTS,
+            key_suffix,
         )
         t_req = time.perf_counter()
         try:
@@ -197,7 +199,11 @@ def synthesize_text_to_wav_bytes(text: str, *, label: str = "TTS") -> bytes:
             LOG.warning("API エラー (code=%s): %s", e.code, e.message or e)
             if attempt + 1 < _TTS_MAX_ATTEMPTS:
                 delay = _retry_delay_sec()
-                LOG.info("%.0f 秒待って API キーを切り替えて再試行します", delay)
+                LOG.info(
+                    "%.0f 秒待って API キーを切り替えて再試行します (現在 key末尾=%s)",
+                    delay,
+                    api_key_manager.last_used_key_info["key_snippet"],
+                )
                 time.sleep(delay)
                 continue
             raise
@@ -213,7 +219,11 @@ def synthesize_text_to_wav_bytes(text: str, *, label: str = "TTS") -> bytes:
                 LOG.error("リトライ上限に達しました")
                 raise
             delay = _retry_delay_sec()
-            LOG.info("%.0f 秒待って API キーを切り替えて再試行します", delay)
+            LOG.info(
+                "%.0f 秒待って API キーを切り替えて再試行します (現在 key末尾=%s)",
+                delay,
+                api_key_manager.last_used_key_info["key_snippet"],
+            )
             time.sleep(delay)
             continue
 

@@ -2,9 +2,12 @@ import os
 import json
 import asyncio
 import threading
+import logging
 from dotenv import load_dotenv
 import inspect  # --- ▼▼▼ 修正ポイント1: inspectモジュールをインポート ▼▼▼ ---
 import re
+
+LOG = logging.getLogger(__name__)
 
 # .envファイルから環境変数を読み込む（空の環境変数を上書き）
 _ENV_PATH = os.path.join(os.path.dirname(__file__), ".env")
@@ -12,6 +15,18 @@ load_dotenv(dotenv_path=_ENV_PATH, override=True)
 
 # セッションファイル（最後に使ったキーのインデックスを保存する場所）
 SESSION_FILE = os.getenv("API_KEY_SESSION_FILE", os.path.join(os.getcwd(), '.session_data.json'))
+
+
+def _normalize_key(value: str) -> str:
+    return value.strip().strip('"').strip("'")
+
+
+def _key_suffix(key: str) -> str:
+    normalized = _normalize_key(key)
+    if len(normalized) < 4:
+        return "????"
+    return normalized[-4:]
+
 
 class ApiKeyManager:
     """
@@ -48,7 +63,7 @@ class ApiKeyManager:
                 continue
             suffix = name.replace("GOOGLE_API_KEY_", "", 1)
             if suffix.isdigit() and value:
-                numbered.append((int(suffix), value))
+                numbered.append((int(suffix), _normalize_key(value)))
 
         range_text = os.getenv("API_KEY_RANGE", "").strip()
         if not range_text:
@@ -116,8 +131,13 @@ class ApiKeyManager:
         with self._key_selection_lock:
             self._current_index = (self._current_index + 1) % len(self._api_keys)
             selected_key = self._api_keys[self._current_index]
-            print(
-                f"[{self.__class__.__name__}] APIkey: idx: {self._current_index}, key: {selected_key[-4:]} [{caller_info}]"
+            suffix = _key_suffix(selected_key)
+            LOG.info(
+                "APIキー切り替え: idx=%d/%d 末尾=%s [%s]",
+                self._current_index,
+                len(self._api_keys),
+                suffix,
+                caller_info,
             )
             return selected_key
 
@@ -147,7 +167,7 @@ class ApiKeyManager:
         
         key = self._api_keys[self._current_index]
         return {
-            "key_snippet": key[-4:],
+            "key_snippet": _key_suffix(key),
             "index": self._current_index,
             "total": len(self._api_keys)
         }
