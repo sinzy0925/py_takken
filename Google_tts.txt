@@ -1,0 +1,533 @@
+https://cloud.google.com/text-to-speech/pricing?hl=ja
+
+Text-to-Speech の料金
+Text-to-Speech の料金は、音声への合成のためにサービスに送信された文字数に基づいて、月単位で請求されます。Text-to-Speech を使用するには課金を有効にする必要があります。使用量が 1 か月間に無料で使用できる文字数を超えると、自動的に課金されます。合計文字数を追跡する方法については、API 使用状況のモニタリングをご覧ください。料金は文字ごとに計算されます。
+
+入力文字列の合計文字数は、課金を目的としてカウントされます。これにはスペースと改行文字も含まれます。すべての音声合成マークアップ言語（SSML）タグ（<mark> タグを除く）も文字数に含まれます。
+
+料金表
+Gemini-TTS
+テキストベースのプロンプトを使用して生成音声を細かく制御できる Text-to-Speech テクノロジーの最新の進化形。
+
+モデル
+
+無料使用量上限
+
+無料の使用量上限に到達した場合の料金
+
+Gemini 2.5 Flash TTS
+
+Gemini 2.5 Flash-Lite プレビュー TTS
+
+利用不可
+
+入力トークン: テキスト トークン 100 万個あたり $0.50*
+
+（sku: 242A-EA16-C1EC）
+
+出力トークン: 音声トークン 100 万個あたり $10.00*
+
+（sku: 9228-79EF-B162）
+
+Gemini 3.1 Flash TTS（プレビュー）
+
+
+
+利用不可
+
+入力トークン: テキストトークン 100 万個あたり $1.00*
+
+（sku: EB3F-1051-05D7）
+
+出力トークン: 音声トークン 100 万個あたり $20.00*
+
+（sku: 7976-330B-8F17）
+
+
+
+
+
+
+
+Gemini 2.5 Pro TTS
+
+利用不可
+
+
+
+入力トークン: テキストトークン 100 万個あたり $1.00*
+
+（sku: 8FF1-7E5B-5BB7）
+
+出力トークン: 音声トークン 100 万個あたり $20.00*
+
+（sku: DCF3-CB17-8262）
+
+* 音声トークンは音声 1 秒あたり 25 トークンに相当
+
+最新の TTS モデル
+最先端の LLM によって生成される Google の最新の TTS モデルは、あらゆるユースケースで他に類を見ないほどのリアリティと感情的な響きをすぐに実現します。
+
+モデル
+
+
+
+無料使用量上限
+
+無料の使用量上限に到達した場合の料金
+
+Chirp 3: HD 音声
+
+（sku:F977-2280-6F1B）
+
+0〜100 万文字
+
+1 文字あたり 0.00003 米ドル（100 万文字あたり 30 米ドル）
+
+インスタント カスタム音声
+
+（sku:A247-37D7-C094）
+
+利用できません
+
+1 文字あたり 0.00006 米ドル（100 万文字あたり 60 米ドル）
+
+
+
+以前の TTS モデル
+モデル
+
+無料使用量上限
+
+無料の使用量上限に到達した場合の料金
+
+WaveNet 音声
+
+（sku:9D01-5995-B545）
+
+0〜400 万文字
+
+1 文字あたり 0.000004 米ドル（100 万文字あたり 4 米ドル）
+
+スタジオ音声
+
+（sku:84AB-48C0-F9C3）
+
+0〜100 万文字
+
+1 文字あたり 0.00016 米ドル（100 万文字あたり 160 米ドル）
+
+標準音声
+
+（sku:9D01-5995-B545）
+
+0〜400 万文字
+
+1 文字あたり 0.000004 米ドル（100 万文字あたり 4 米ドル）
+
+Neural2 音声
+
+（sku:FEBD-04B6-769B）
+
+0〜100 万文字
+
+1 文字あたり 0.000016 米ドル（100 万文字あたり 16 米ドル）
+
+Polyglot（プレビュー）の音声
+
+（sku:FEBD-04B6-769B）
+
+0〜100 万文字
+
+1 文字あたり 0.000016 米ドル（100 万文字あたり 16 米ドル）
+
+注: WaveNet と標準の音声の場合、文字数はテキストで表されるバイト数以下になります。これには英数字、句読点、空白文字が含まれます。一部の文字セットでは、1 文字を表すのに複数バイトが使用されます。たとえば UTF-8 の日本語文字（ja-JP）の場合、通常、1 文字に必要なバイト数は 1 バイトを上回ります。この場合、複数バイトではなく 1 文字に対してのみ課金されます。
+
+---
+
+https://docs.cloud.google.com/text-to-speech/docs/chirp3-hd?hl=ja
+
+対応言語
+Chirp 3: HD 音声は、次の言語でサポートされています。
+
+言語	BCP-47 コード
+日本語（日本）	ja-JP
+
+ご利用いただけるリージョン
+Chirp 3: HD 音声は次の Google Cloud リージョンでそれぞれ利用できます。
+
+Google Cloud ゾーン	提供状況
+global	一般提供
+us	一般提供
+eu	一般提供
+asia-southeast1	一般提供
+europe-west2	一般提供
+asia-northeast1	GA
+サポートされる出力形式
+デフォルトのレスポンス形式は LINEAR16 ですが、次の形式もサポートされています。
+
+API メソッド	形式
+streaming	ALAW、MULAW、OGG_OPUS、PCM
+batch	ALAW、MULAW、MP3、OGG_OPUS、PCM
+Chirp 3: HD 音声を使用する
+Chirp 3: HD 音声を使用して音声を合成する方法を学びます。
+
+ストリーミング音声合成リクエストを実行する
+Python
+Cloud TTS 用のクライアント ライブラリをインストールして使用する方法については、Cloud TTS クライアント ライブラリをご覧ください。詳細については、Cloud TTS Python API リファレンス ドキュメントをご覧ください。
+
+Cloud TTS に対する認証を行うには、アプリケーションのデフォルト認証情報を設定します。詳細については、ローカル開発環境の認証の設定をご覧ください。
+
+
+
+
+
+"""Synthesizes speech from a stream of input text."""
+from google.cloud import texttospeech
+
+client = texttospeech.TextToSpeechClient()
+
+# See https://cloud.google.com/text-to-speech/docs/voices for all voices.
+streaming_config = texttospeech.StreamingSynthesizeConfig(
+    voice=texttospeech.VoiceSelectionParams(
+        name="en-US-Chirp3-HD-Charon",
+        language_code="en-US",
+    )
+)
+
+# Set the config for your stream. The first request must contain your config, and then each subsequent request must contain text.
+config_request = texttospeech.StreamingSynthesizeRequest(
+    streaming_config=streaming_config
+)
+
+text_iterator = [
+    "Hello there. ",
+    "How are you ",
+    "today? It's ",
+    "such nice weather outside.",
+]
+
+# Request generator. Consider using Gemini or another LLM with output streaming as a generator.
+def request_generator():
+    yield config_request
+    for text in text_iterator:
+        yield texttospeech.StreamingSynthesizeRequest(
+            input=texttospeech.StreamingSynthesisInput(text=text)
+        )
+
+streaming_responses = client.streaming_synthesize(request_generator())
+
+for response in streaming_responses:
+    print(f"Audio content size in bytes is: {len(response.audio_content)}")
+オンライン音声合成リクエストを実行する
+Python
+Cloud TTS 用のクライアント ライブラリをインストールして使用する方法については、Cloud TTS クライアント ライブラリをご覧ください。詳細については、Cloud TTS Python API リファレンス ドキュメントをご覧ください。
+
+Cloud TTS に対する認証を行うには、アプリケーションのデフォルト認証情報を設定します。詳細については、ローカル開発環境の認証の設定をご覧ください。
+
+
+
+
+
+def synthesize_text():
+    """Synthesizes speech from the input string of text."""
+    from google.cloud import texttospeech
+
+    text = "Hello there."
+    client = texttospeech.TextToSpeechClient()
+
+    input_text = texttospeech.SynthesisInput(text=text)
+
+    # Note: the voice can also be specified by name.
+    # Names of voices can be retrieved with client.list_voices().
+    voice = texttospeech.VoiceSelectionParams(
+        language_code="en-US",
+        name="en-US-Chirp3-HD-Charon",
+    )
+
+    audio_config = texttospeech.AudioConfig(
+        audio_encoding=texttospeech.AudioEncoding.MP3
+    )
+
+    response = client.synthesize_speech(
+        input=input_text,
+        voice=voice,
+        audio_config=audio_config,
+    )
+
+    # The response's audio_content is binary.
+    with open("output.mp3", "wb") as out:
+        out.write(response.audio_content)
+        print('Audio content written to file "output.mp3"')
+
+スクリプトとプロンプトに関するヒント
+テキストから魅力的で自然な音声を作成するには、話し言葉のニュアンスを理解し、それをスクリプト形式に変換する必要があります。次のヒントを参考にして、信頼できるトーンを取り入れ、選んだトーンを表現するスクリプトを作成してください。
+
+目標の理解: 自然な音声
+主な目的は、人間の話者のように合成音声をできるだけ自然に聞こえるようにすることです。これには以下が含まれます。
+
+自然なペースの模倣: 人の話し方（速度）
+スムーズな流れの作成: 文やフレーズ間のシームレスな遷移を確実に行います。
+リアルな休止を追加する: 強調や明確化のために休止を組み込みます。
+会話のトーンをキャプチャする: 音声を実際の会話のように聞こえるようにします。
+自然な音声を実現するための主な手法
+句読点でペースと流れを整える
+
+ピリオド（.）: 完全な停止と長い休止を表します。思考のまとまりを区切り、明確な文の境界を作成するために使用します。
+カンマ（,）: 文内の短い休止を表します。節やリスト項目を区切ったり、息継ぎのための休止を入れたりする場合に使用します。
+省略記号（...）: より長い、意図的な休止を表します。考えがまとまっていない、ためらっている、ドラマチックな展開などを表すことができます。
+例: 「そして... それが起こった。」
+ハイフン（-）: 短い休止や思考の突然の切れ目を表すために使用します。
+例: 「言いたいことはあったけど、言えなかった」
+休止や言いよどみを入れる
+
+戦略的な休止: 人間の話者が息継ぎや強調のために自然に休止する箇所に、省略記号、カンマ、ハイフンを使用して休止を挿入します。
+言いよどみ（「えー」や「うー」など）: Cloud Text-to-Speech のモデルによっては、言いよどみを自動的に処理するものもありますが、その役割を理解することが重要です。信頼性を高め、ロボットのような音声を抑えることができます。モデルによって追加される場合でも、人間の発話で自然に発生する場所を把握しておくと、スクリプトの全体的な流れを把握するのに役立ちます。
+テストと反復
+
+再合成: 同じ音声で同じメッセージを複数回再合成しても問題ありません。句読点、スペース、単語の選択を少し変えるだけで、最終的な音声に大きく影響することもあります。
+慎重に聞く: 合成音声のペース、流れ、全体的なトーンなどに細心の注意を払います。不自然に聞こえる部分を特定し、必要に応じてスクリプトを調整します。
+音声のバリエーション: システムで許可されている場合は、さまざまな音声を使用して、スクリプトと選択したトーンに合ったものを見つけてください。
+実践的なスクリプト作成のヒント
+
+読み上げ: 合成する前に、スクリプトを読み上げます。これにより、ぎこちない言い回しや不自然な休止、調整が必要な個所を特定できます。
+会話形式で書く: スクリプトをより自然に聞こえるように、短縮形（「it's」、「we're」など）やカジュアルな言葉遣いを使用します。
+コンテキストを考慮する: スクリプトのトーンやペースは、音声のコンテキストと一致している必要があります。カジュアルな会話とは異なるアプローチが必要です。
+複雑な文を分割する: 長く複雑な文は、TTS エンジンが処理しにくい場合があります。より短く、扱いやすい文に分割します。
+サンプル スクリプトの改善
+
+元のスクリプト（ロボット）: 「この商品は現在ご購入いただけます。新機能が追加されました。とても楽しみです。」
+
+スクリプトの改善（自然）: 「このサービスはご利用いただけるようになりました... また、新しい機能も追加されています。ぜひお試しください。」
+
+元のスクリプト（ロボット）: 「このメッセージは自動送信の確認メッセージです。予約の手続きが完了しました。以下の詳細は、今後の滞在に関するものです。予約番号は 12345 です。登録されたゲスト名は Anthony Vasquez、到着日は 3 月 14 日です。出発日は 3 月 16 日です。部屋タイプはデラックス スイートです。宿泊人数は 1 人です。チェックイン時間は午後 3 時です。チェックアウト時間は午前 11 時です。なお、キャンセル ポリシーでは、チェックイン 48 時間前までに通知する必要があります。この期間内に通知しなかった場合、1 泊分の滞在料金が請求されます。ご予約に含まれるその他のアメニティは、無料 Wi-Fi、フィットネス センターの利用、無料朝食です。ご不明な点がございましたら、855-555-6689 まで直接お問い合わせください。当ホテルをご利用いただきありがとうございます。」
+
+改善されたスクリプト（自然）: 「Anthony Vasquez 様。ご予約の件につきまして、ご連絡いたします。3 月 14 日～3 月 16 日まで、美しいデラックス スイートのご予約を承りました。こちらは 1 名様分の料金です。確認番号は 12345 となります。
+
+チェックインは午後 3 時、チェックアウトは午前 11 時です。
+
+キャンセル ポリシーについてお知らせいたします... キャンセルが必要な場合は、ご到着の 48 時間前までにお知らせください。チェックインされなかった場合、1 泊分の宿泊料金が発生いたしますので、ご注意ください。
+
+快適な滞在をさらにお楽しみいただけるよう、無料の Wi-Fi をご用意しております。また、フィットネス センターもご利用いただけます。朝食も毎日無料でご提供しています。
+
+ご不明な点がございましたら、855-555-6689 までお気軽にお問い合わせください。ご利用をお待ちしております。」
+
+変更の説明:
+
+省略記号（...）を挿入して、強調のための休止を表しています。
+会話の流れのため、「また、」という表現を使用しています。
+「とても楽しみです」は、少し不自然な印象を与えます。
+「ご注意ください」というリマインダーで、注意を促しています。
+こうしたガイドラインに沿って作成することで、自然で魅力的で人間らしい音声に変換されるスクリプトを作成できます。このスキルを習得するには、練習とテストが重要です。
+
+Chirp 3: HD SSML のサポート
+プレビュー版
+
+このプロダクトまたは機能は サービス固有の規約の対象となります。 一般提供前のプロダクトと機能は「現状のまま」で提供されるものであり、サポートが制限されることがあります。 詳細については、リリース ステージの説明をご覧ください。
+
+音声合成マークアップ言語（SSML）タグを使用すると、テキストを音声に変換する方法をより詳細に制御できます。SSML を使用すると、発音や段落を指定したり、入力テキストの全体的な構造を制御して、より自然な音声にすることができます。
+
+サポートされている SSML 要素
+Chirp 3: HD 音声は、使用可能な SSML タグのうち、ここで説明するサブセットをサポートしています。このリストにないタグは、合成プロセスで無視されます。
+
+<speak>: SSML テキストのルート要素。
+<say-as>: 含まれているテキストの発音方法に関するヒントを提供できます。interpret-as="expletive" または interpret-as="bleep" はサポートされていません。
+<p>: 段落を表します。
+<s>: 文を表します。
+<phoneme>: 含まれているテキストの発音記号を提供します。
+<sub>: 要素に含まれるテキストの代わりにエイリアス値を読み上げます。
+SSML を使用した SynthesizeSpeechRequest の例:
+
+
+{
+  "audio_config": {
+    "audio_encoding": "LINEAR16",
+  },
+  "input": {
+    "ssml": "<speak>Here are <say-as interpret-as=\"characters\">SSML</say-as> samples. I can also substitute phrases, like the <sub alias=\"World Wide Web Consortium\">W3C</sub>. Hi,<phoneme alphabet=\"ipa\" ph=\"ˌmænɪˈtoʊbə\">manitoba<phoneme>! Finally, I can speak a paragraph with two sentences. <p><s>This is sentence one.</s><s>This is sentence two.</s></p></speak>",
+  },
+  "voice": {
+    "language_code": "en-US",
+    "name": "en-us-Chirp3-HD-Leda",
+  }
+}
+Chirp 3: HD 音声操作
+プレビュー版
+
+このプロダクトまたは機能は サービス固有の規約の対象となります。 一般提供前のプロダクトと機能は「現状のまま」で提供されるものであり、サポートが制限されることがあります。 詳細については、リリース ステージの説明をご覧ください。
+
+音声操作機能は、HD 音声合成専用です。Chirp 3: HD 音声の制御オプションで、ペース コントロール、一時停止コントロール、カスタム発音を管理できます。
+
+ペース コントロール
+生成された音声の速度はペース パラメータで調整できます。ペース パラメータを使うと、音声の速度を遅くしたり速くしたりできます。値は 0.25 倍（非常に遅い）から 2 倍（非常に速い）まで設定可能です。ペースを設定するには、リクエストで speaking_rate パラメータを使用します。0.25～2.0 の値を選択してください1.0 より小さい値を設定すると音声の速度が遅くなり、1.0 より大きい値を設定すると音声の速度が速くなります。値が 1.0 の場合、ペースは調整されていません。
+
+ペース コントロールを使用した SynthesizeSpeechRequest の例:
+
+
+{
+  "audio_config": {
+    "audio_encoding": "LINEAR16",
+    "speaking_rate": 2.0,
+  },
+  "input": {
+    "text": "Once upon a time, there was a cute cat. He was so cute that he got lots of treats.",
+  },
+  "voice": {
+    "language_code": "en-US",
+    "name": "en-us-Chirp3-HD-Leda",
+  }
+}
+ペース コントロールを使用した StreamingSynthesizeConfig のサンプル:
+
+
+{
+  "streaming_audio_config": {
+    "audio_encoding": "LINEAR16",
+    "speaking_rate": 2.0,
+  },
+  "voice": {
+    "language_code": "en-US",
+    "name": "en-us-Chirp3-HD-Leda",
+  }
+}
+ペース コントロールの音声サンプル:
+
+発話速度	出力
+0.5	
+1.0	
+2.0	
+一時停止コントロール
+入力フィールド markup を使用してテキストに特殊なタグを直接埋め込むことで、AI 生成音声に一時停止を挿入できます。一時停止タグは markup フィールドでのみ機能し、text フィールドでは機能しません。
+
+これらのタグは AI に無音を挿入させるためのものですが、その一時停止の正確な長さは固定されていません。AI がコンテキストに基づいて再生時間を調整します。これは、人が話す言葉が話者、場所、文の構造に応じて変わるのと同様です。使用可能な一時停止タグは、[pause short]、[pause long]、[pause] です。マークアップ タグを使用せずに一時停止を作成する別の方法については、プロンプトと作成のガイドラインを参照してください。
+
+AI モデルは、特に文章の不自然な位置に配置された場合、一時停止タグを無視してしまうことがあります。複数の一時停止タグを組み合わせることでより長い無音状態を作ることができますが、過度に使用すると問題を引き起こしかねません。
+
+一時停止コントロールを使用した SynthesizeSpeechRequest の例:
+
+
+{
+  "audio_config": {
+    "audio_encoding": "LINEAR16",
+  },
+  "input": {
+    "markup": "Let me take a look, [pause long] yes, I see it.",
+  },
+  "voice": {
+    "language_code": "en-US",
+    "name": "en-us-Chirp3-HD-Leda",
+  }
+}
+一時停止コントロールを使用した StreamingSynthesisInput の例:
+
+
+{
+  "markup": "Let me take a look, [pause long] yes, I see it.",
+}
+一時停止コントロールの音声サンプル:
+
+マークアップ入力	出力
+「確認いたします。はい、確認できました。」	
+「確認いたします。[長い一時停止] はい、確認できました。」	
+カスタム発音
+入力テキスト内の単語に IPA または X-SAMPA の音声表記を使用して、カスタムの発音を指定できます。正確なレンダリングを行うには、言語に適した音素を使用してください。音素のオーバーライドについて詳しくは、音素に関するドキュメントをご覧ください。
+
+カスタム発音を使用した SynthesizeSpeechRequest の例:
+
+
+{
+  "audio_config": {
+    "audio_encoding": "LINEAR16",
+  },
+  "input": {
+    "text": "There is a dog in the boat",
+    "custom_pronunciations": {
+      "phrase": "dog",
+      "phonetic_encoding": "PHONETIC_ENCODING_X_SAMPA",
+      "pronunciation": "\"k{t",
+    }
+  },
+  "voice": {
+    "language_code": "en-US",
+    "name": "en-us-Chirp3-HD-Leda",
+  }
+}
+カスタム発音を使用する StreamingSynthesizeConfig のサンプル:
+
+
+{
+  "streaming_audio_config": {
+    "audio_encoding": "LINEAR16",
+  },
+  "voice": {
+    "language_code": "en-US",
+    "name": "en-us-Chirp3-HD-Leda",
+  }
+  "custom_pronunciations": {
+    "phrase": "dog",
+    "phonetic_encoding": "PHONETIC_ENCODING_X_SAMPA",
+    "pronunciation": "\"k{t",
+  }
+}
+カスタム発音の音声サンプル:
+
+カスタム発音を適用	出力
+なし	
+「dog」を「k{t」と発音する	
+オーバーライドされたフレーズは、記号の使用など、任意の方法でフォーマットできます。たとえば、中国語や日本語のようにフレーズ照合で文脈による曖昧さが生じやすい場合や、1 つの単語が複数の発音を持つ文では、フレーズを整形することでその曖昧さを解消できます。たとえば、入力中に出てくる read という単語の他の箇所を誤って上書きしてしまわないように、フレーズ "read" を "read1"、"[read]"、"(read)" のように整形して、入力テキストと上書き対象のフレーズの両方で使用することができます。
+
+次の例では、単語「read」が 2 通りに発音される文にカスタム発音を適用しています。
+
+
+{
+  "audio_config": {
+    "audio_encoding": "LINEAR16",
+  },
+  "input": {
+    "text": "I read1 a book, and I will now read2 it to you.",
+    "custom_pronunciations": {
+      "phrase": "read1",
+      "phonetic_encoding": "PHONETIC_ENCODING_IPA",
+      "pronunciation": "rɛd",
+    }
+    "custom_pronunciations": {
+      "phrase": "read2",
+      "phonetic_encoding": "PHONETIC_ENCODING_IPA",
+      "pronunciation": "riːd",
+    }
+  },
+  "voice": {
+    "language_code": "en-US",
+    "name": "en-us-Chirp3-HD-Leda",
+  }
+}
+カスタム発音を適用	出力
+「read」の 2 通りの上書き	
+また、マークアップ形式の入力と組み合わせてカスタム発音を使用することができ、これにより一時停止タグも利用可能になります。
+
+
+{
+  "audio_config": {
+    "audio_encoding": "LINEAR16",
+  },
+  "input": {
+    "markup": "Did you [pause long] read this book?",
+    "custom_pronunciations": {
+      "phrase": "read",
+      "phonetic_encoding": "PHONETIC_ENCODING_IPA",
+      "pronunciation": "riːd",
+    }
+  },
+  "voice": {
+    "language_code": "en-US",
+    "name": "en-us-Chirp3-HD-Leda",
+  }
+}
+カスタム発音の使用	出力
+一時停止タグで発音を上書き	
+音声操作に対応している言語
+ペース コントロールはすべての言語 / 地域で利用できます。
+
+一時停止コントロールは、bg-bg、cs-cz、el-gr、et-ee、he-il、hr-hr、hu-hu、lt-lt、lv-lv、ro-ro、sk-sk、sl-si、sr-rs を除くすべての言語 / 地域で利用できます。
+
+カスタム発音は、bg-bg、bn-in、cs-cz、da-dk、el-gr、et-ee、fi-fi、gu-in、he-il、hr-hr、hu-hu、lt-lt、lv-lv、nb-no、nl-be、ro-ro、sk-sk、sl-si、sr-rs、sv-se、sw-ke、th-th、uk-ua、ur-in、vi-vn を除くすべての言語 / 地域で利用できます。

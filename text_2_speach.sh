@@ -9,6 +9,48 @@ OUTPUT_DIR="$ROOT/wav"
 LOG_DIR="$ROOT/logs"
 TMUX_SESSION="text2speach"
 
+resolve_python() {
+  if [[ -n "${PYTHON:-}" ]]; then
+    if command -v "$PYTHON" >/dev/null 2>&1; then
+      echo "$PYTHON"
+      return 0
+    fi
+    echo "エラー: PYTHON=$PYTHON が見つかりません。" >&2
+    exit 1
+  fi
+  if command -v python3 >/dev/null 2>&1; then
+    echo python3
+    return 0
+  fi
+  if command -v python >/dev/null 2>&1; then
+    echo python
+    return 0
+  fi
+  echo "エラー: python3 / python が見つかりません。Python 3.10 以上をインストールしてください。" >&2
+  exit 1
+}
+
+activate_venv() {
+  if [[ -f "$VENV/bin/activate" ]]; then
+    # Linux / macOS / WSL / Google Cloud Shell
+    # shellcheck disable=SC1091
+    source "$VENV/bin/activate"
+    return 0
+  fi
+  if [[ -f "$VENV/Scripts/activate" ]]; then
+    if [[ "$(uname -s)" == "Linux" ]]; then
+      echo "警告: Windows 用の仮想環境を検出しました。WSL 用に再作成します..."
+      rm -rf "$VENV"
+      return 1
+    fi
+    # Git Bash / Windows
+    # shellcheck disable=SC1091
+    source "$VENV/Scripts/activate"
+    return 0
+  fi
+  return 1
+}
+
 show_log_help() {
   local log_file="${1:-}"
   if [[ -z "$log_file" && -f "$LOG_DIR/latest.log.path" ]]; then
@@ -48,11 +90,7 @@ EOF
 
 setup_environment() {
   cd "$ROOT"
-
-  if ! command -v python >/dev/null 2>&1; then
-    echo "エラー: python が見つかりません。Python 3.10 以上をインストールしてください。" >&2
-    exit 1
-  fi
+  PYTHON="$(resolve_python)"
 
   if [[ ! -f "$TTS_DIR/main.py" ]]; then
     echo "エラー: $TTS_DIR/main.py が見つかりません。" >&2
@@ -71,20 +109,16 @@ setup_environment() {
 
   if [[ ! -d "$VENV" ]]; then
     echo "仮想環境を作成します: $VENV"
-    python -m venv "$VENV"
+    "$PYTHON" -m venv "$VENV"
   fi
 
-  if [[ -f "$VENV/Scripts/activate" ]]; then
-    # Git Bash / Windows
-    # shellcheck disable=SC1091
-    source "$VENV/Scripts/activate"
-  elif [[ -f "$VENV/bin/activate" ]]; then
-    # Linux / macOS / Google Cloud Shell
-    # shellcheck disable=SC1091
-    source "$VENV/bin/activate"
-  else
-    echo "エラー: 仮想環境の activate スクリプトが見つかりません: $VENV" >&2
-    exit 1
+  if ! activate_venv; then
+    echo "仮想環境を作成します: $VENV"
+    "$PYTHON" -m venv "$VENV"
+    activate_venv || {
+      echo "エラー: 仮想環境の activate スクリプトが見つかりません: $VENV" >&2
+      exit 1
+    }
   fi
 
   echo "依存パッケージをインストールします..."
